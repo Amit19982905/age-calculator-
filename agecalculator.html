@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-size: large;
+        }
+
+        @media screen and (max-width: 600px) {
+            .dob {
+                flex-direction: column;
+                align-items: center;
+            }
+            .name{
+                text-align: center;
+            }
+            
+            
+        }
+
+        .box {
+            border: 0.1vw solid black;
+            border-radius: 1vw;
+            background-color: bisque;
+            margin: 3vw auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            padding: 2vw;
+            
+        }
+        
+        .name {
+            margin: 1vw auto;
+        }
+        
+        #name {
+            margin-left: 2vw;
+        }
+        
+        .dob {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 2vw auto;
+        }
+        input{
+            padding: 0.5vw 1vw;
+            border: none;
+            border-radius: 1vw ;   
+            background-color: rgb(245, 240, 235);   
+            
+        }
+        label{
+            margin-left: 1vw;
+        }
+
+        .dob input {
+            width: 15vw;
+            margin-top: 1vw;
+        }
+
+        .btn {
+            margin: 2vw auto;
+        }
+
+        button {
+            width: 150%;
+            padding: 0.5vw;
+            border-radius: 2vw;
+        }
+
+        #result {
+            text-align: center;
+            padding: 2vw;
+            color: red;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="name">
+            <label for="name">Name </label>
+            <input type="text" id="name" placeholder="Enter you name" required>
+        </div>
+        
+        <div class="dob">
+            <div class="date_dob">
+                <label for="Date">Date </label><br>
+                <input type="number" name="" id="date" placeholder="DD">
+            </div>
+            <div class="month_dob">
+                <label for="month">Month </label><br>
+                <input type="number" name="" id="month" placeholder="MM">
+            </div>
+            <div class="year_bod">
+                <label for="year">Year </label><br>
+                <input type="number" name="" id="year" placeholder="YYYY">
+            </div>
+        </div>
+        <div class="btn">
+            <button type="submit" onclick={validate()}>Calculate</button>
+
+        </div>
+
+        <div id="result">
+
+        </div>
+
+    </div>
+    <script>
+
+        function validate() {
+
+            var d = document.getElementById('date').value;
+            var m = document.getElementById('month').value;
+            var y = document.getElementById('year').value;
+            var curd = new Date();
+            var curyear = curd.getFullYear();
+            if ((y <= curyear) && (y >= 1900)) {
+                if ((m > 0) && (m < 13)) {
+                    if ((m == 1) || (m == 3) || (m == 5) || (m == 7) || (m == 8) || (m == 10) || (m == 12)) {
+                        if ((d > 0) || (d < 32)) {
+
+                            Calculator();
+                        }
+                        else {
+
+                            alt();
+
+                        }
+                    }
+                    else if ((m == 4) || (m == 6) || (m == 9) || (m == 11)) {
+                        if ((d > 0) || (d < 31)) {
+
+                            Calculator();
+                        }
+                        else {
+                            alt();
+                        }
+                    }
+                    else {
+                        if (y % 4 == 0) {
+                            if ((d > 0) && (d < 30)) {
+
+                                Calculator();
+                            }
+                            else {
+                                alt();
+                            }
+                        }
+                        else {
+                            if ((d > 0) && (d < 29)) {
+
+                                Calculator();
+                            }
+                            else {
+                                alt();
+                            }
+                        }
+                    }
+                }
+                else {
+
+                    alt();
+
+                }
+            }
+            else {
+                alt();
+            }
+        }
+        function Calculator() {
+            var d = document.getElementById('date').value;
+            var m = document.getElementById('month').value;
+            var y = document.getElementById('year').value;
+            var curd = new Date();
+            var curyear = curd.getFullYear();
+            var curmon = curd.getMonth();
+            var curdate = curd.getDate();
+
+            var nam = document.getElementById('name').value;
+            var month = [];
+            if (y % 4 == 0) {
+                month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            }
+            else {
+                month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            }
+
+            if (d > curdate) {
+                curdate = curdate + month[m - 1];
+                curmon = curmon - 1;
+            }
+            if (m > curmon) {
+                curyear = curyear - 1;
+                curmon = curmon + 12;
+            }
+            var dt = curdate - d;
+            var mo = curmon - m + 1;
+            var yr = curyear - y;
+
+            document.getElementById('result').innerHTML = nam + " your age is " + yr + " year,  " + mo + " months,  " + dt + " days.";
+            document.getElementById('date').value = "";
+            document.getElementById('month').value = "";
+            document.getElementById('year').value = "";
+            document.getElementById('name').value = "";
+        }
+        function alt() {
+
+            alert('Invalid Date! Enter again.');
+            document.getElementById('date').value = "";
+            document.getElementById('month').value = "";
+            document.getElementById('year').value = "";
+            document.getElementById('name').value = "";
+        }
+    </script>
+</body>
+
+</html>
